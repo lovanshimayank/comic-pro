@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime Store</title>
+
+  <style>
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      
+      --bg-main: #f3f4f6;
+      --bg-header: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-soft: #f9fafb;
+      --border-soft: #e5e7eb;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.12);
+      --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    body.dark {
+      --bg-main: #020617;
+      --bg-header: #020617;
+      --bg-card: #020617;
+      --bg-card-soft: #020617;
+      --border-soft: rgba(148, 163, 184, 0.45);
+      --text-main: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.14);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.95);
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+   
+
+    .top-bar {
+      background: var(--bg-header);
+      border-bottom: 1px solid var(--border-soft);
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .top-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.7rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .brand-logo {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f97316, #ec4899);
+    }
+
+    .brand h1 {
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    
+    .search-box {
+      flex: 1;
+      min-width: 200px;
+      max-width: 500px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--bg-card-soft);
+      border-radius: 999px;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid var(--border-soft);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+
+    .search-icon {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    
+    .theme-toggle {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: var(--bg-card-soft);
+      padding: 0.3rem 0.75rem;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .theme-toggle span {
+      font-size: 0.9rem;
+    }
+
+    .theme-toggle:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    
+    .store-header {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.2rem 1rem 1rem;
+    }
+
+    .store-header h2 {
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      margin-bottom: 0.3rem;
+    }
+
+    .store-header p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    
+
+    .store-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+      display: grid;
+      grid-template-columns: minmax(0, 3.2fr) minmax(260px, 1.1fr);
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+
+    
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .product-card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      padding: 0.8rem;
+      box-shadow: var(--shadow-soft);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 14px 34px rgba(15, 23, 42, 0.12);
+    }
+
+    .product-img-wrapper {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 0.6rem;
+      background: var(--bg-card-soft);
+    }
+
+    .product-img-wrapper img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .product-card:hover img {
+      transform: scale(1.03);
+    }
+
+    .product-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .product-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .product-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .product-footer {
+      margin-top: 0.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .price {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .book-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #f9fafb;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+    }
+
+    body.dark .book-btn {
+      box-shadow: 0 10px 24px rgba(34, 197, 94, 0.4);
+    }
+
+    .book-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .book-btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: none;
+    }
+
+    
+
+    .cart-summary {
+      background: var(--bg-card);
+      border-radius: 16px;
+      border: 1px solid var(--border-soft);
+      padding: 1rem;
+      box-shadow: var(--shadow-soft);
+      position: sticky;
+      top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .cart-summary h3 {
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .cart-summary p {
+      color: var(--text-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    #itemCount {
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .pulse {
+      animation: pulse 0.35s ease-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+
+    
+
+    .details-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      z-index: 999;
+    }
+
+    .details-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .details-content {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border-radius: 18px;
+      padding: 1rem 1rem 1.1rem;
+      max-width: 480px;
+      width: 90%;
+      box-shadow: 0 22px 60px rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-soft);
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 0.8rem;
+    }
+
+    .details-img {
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg-card-soft);
+    }
+
+    .details-img img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      display: block;
+    }
+    
+
+    .details-info h3 {
+      margin-bottom: 0.2rem;
+    }
+
+    .details-price {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+    }
+
+    .details-list {
+      margin-top: 0.3rem;
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      list-style: none;
+    }
+
+    .details-list li + li {
+      margin-top: 0.15rem;
+    }
+
+    .details-actions {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.4rem;
+      grid-column: 1 / -1;
+    }
+
+    .close-details {
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: white;
+      padding: 0.3rem 0.8rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .close-details:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .details-add {
+      border-radius: 999px;
+      border: none;
+      padding: 0.35rem 0.9rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: var(--accent);
+      color: #f9fafb;
+      cursor: pointer;
+    }
+
+
+
+    @media (max-width: 900px) {
+      .store-container {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-inner {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        justify-content: center;
+      }
+
+      .theme-toggle {
+        align-self: center;
+      }
+
+      .details-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+<body class="light">
+  <div class="app">
+    
+    <header class="top-bar">
+      <div class="top-inner">
+        <div class="brand">
+          <div class="brand-logo"></div>
+          <h1>Anime Store</h1>
+        </div>
+
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search figures, hoodies, posters..."
+          />
+        </div>
+
+        <button class="theme-toggle" id="themeToggle">
+          <span>🌞 / 🌙</span>
+          <span>Theme</span>
+        </button>
+      </div>
+    </header>
+
+    
+    <section class="store-header">
+      <h2>Discover exclusive anime merch & collectibles</h2>
+      <p>Browse figures, hoodies, posters, and more—delivered right to your door.</p>
+    </section>
+
+    
+    <main class="store-container">
+      
+      <section class="products" id="productGrid">
+        
+        <article class="product-card"
+          data-name="Gojo Action Figure"
+          data-price="1499"
+          data-material="PVC, premium paint"
+          data-taxes="GST 18% included"
+          data-delivery="3–5 days"
+          data-shipping="₹79 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="FuRyu Jujutsu Kaisen_ Satoru Gojo Mappa Showcase 1_7 Scale PVC Figure, Multicolor.jpg" alt="Gojo Action Figure">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Gojo Action Figure</div>
+            <div class="product-meta">Jujutsu Kaisen • 1/7 Scale</div>
+            <div class="product-footer">
+              <span class="price">₹1,499</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        
+        <article class="product-card"
+          data-name="Naruto Wall Poster"
+          data-price="499"
+          data-material="Matte finish art paper"
+          data-taxes="GST 12% included"
+          data-delivery="4–6 days"
+          data-shipping="Free on orders above ₹799">
+          <div class="product-img-wrapper">
+            <img src="Set of 7 Anime Poster - Legandary Anime Poster - Manga Wall Art - Curated Manga Panels - Gift for Anime Lovers - Trendy Anime Wall Art - Etsy.jpg" alt="Naruto Wall Poster">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Naruto Wall Poster</div>
+            <div class="product-meta">A3 size • High resolution</div>
+            <div class="product-footer">
+              <span class="price">₹499</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        
+        <article class="product-card"
+          data-name="Attack on Titan Hoodie"
+          data-price="2199"
+          data-material="Cotton blend, fleece inside"
+          data-taxes="GST 18% included"
+          data-delivery="5–7 days"
+          data-shipping="₹99 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Screenshot 2025-12-14 175905.png" alt="Attack on Titan Hoodie">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Attack on Titan Hoodie</div>
+            <div class="product-meta">Unisex • Sizes S–XL</div>
+            <div class="product-footer">
+              <span class="price">₹2,199</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        
+        <article class="product-card"
+          data-name="Demon Slayer Keychain"
+          data-price="299"
+          data-material="Metal alloy with enamel"
+          data-taxes="GST 18% included"
+          data-delivery="3–5 days"
+          data-shipping="₹49 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Screenshot 2025-12-14 180103.png" alt="Demon Slayer Keychain">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Demon Slayer Keychain</div>
+            <div class="product-meta">Tanjiro & Nezuko design</div>
+            <div class="product-footer">
+              <span class="price">₹299</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        
+        <article class="product-card"
+          data-name="Luffy Straw Hat"
+          data-price="899"
+          data-material="Woven straw, adjustable band"
+          data-taxes="GST 12% included"
+          data-delivery="4–6 days"
+          data-shipping="₹79 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Straw hat.png" alt="Luffy Straw Hat">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Luffy Straw Hat</div>
+            <div class="product-meta">One Piece • Cosplay prop</div>
+            <div class="product-footer">
+              <span class="price">₹899</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Tokyo Revengers T-Shirt"
+          data-price="799"
+          data-material="100% cotton"
+          data-taxes="GST 5% included"
+          data-delivery="3–5 days"
+          data-shipping="Free above ₹999">
+          <div class="product-img-wrapper">
+            <img src="Tokyo Revengers T-shirt.jpg" alt="Tokyo Revengers T-Shirt">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Tokyo Revengers T-Shirt</div>
+            <div class="product-meta">Regular fit • Sizes S–XXL</div>
+            <div class="product-footer">
+              <span class="price">₹799</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="My Hero Academia Notebook"
+          data-price="249"
+          data-material="A5 ruled, 120 pages"
+          data-taxes="GST 12% included"
+          data-delivery="2–4 days"
+          data-shipping="₹39 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="My Hero Academia Reach For It A5 Wiro Notebook.jpg" alt="My Hero Academia Notebook">
+          </div>
+          <div class="product-info">
+            <div class="product-title">MHA Notebook</div>
+            <div class="product-meta">Midoriya cover art</div>
+            <div class="product-footer">
+              <span class="price">₹249</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Jujutsu Kaisen Phone Case"
+          data-price="599"
+          data-material="TPU + polycarbonate"
+          data-taxes="GST 18% included"
+          data-delivery="3–5 days"
+          data-shipping="₹49 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="download (2).jpg" alt="Jujutsu Kaisen Phone Case">
+          </div>
+          <div class="product-info">
+            <div class="product-title">JJK Phone Case</div>
+            <div class="product-meta">Multiple models available</div>
+            <div class="product-footer">
+              <span class="price">₹599</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Chainsaw Man Poster Set"
+          data-price="699"
+          data-material="Glossy print, set of 3"
+          data-taxes="GST 12% included"
+          data-delivery="4–6 days"
+          data-shipping="Free above ₹799">
+          <div class="product-img-wrapper">
+            <img src="download (3).jpg" alt="Chainsaw Man Poster Set">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Chainsaw Man Poster Set</div>
+            <div class="product-meta">A4 set of 3 designs</div>
+            <div class="product-footer">
+              <span class="price">₹699</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Studio Ghibli Mug"
+          data-price="549"
+          data-material="Ceramic, 350ml"
+          data-taxes="GST 12% included"
+          data-delivery="3–5 days"
+          data-shipping="₹69 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Screenshot 2025-12-15 194537.png" alt="Studio Ghibli Mug">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Studio Ghibli Mug</div>
+            <div class="product-meta">Microwave safe</div>
+            <div class="product-footer">
+              <span class="price">₹549</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="One Piece Sticker Pack"
+          data-price="199"
+          data-material="Vinyl, waterproof"
+          data-taxes="GST 18% included"
+          data-delivery="2–4 days"
+          data-shipping="₹29 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Screenshot 2025-12-15 194738.png" alt="One Piece Sticker Pack">
+          </div>
+          <div class="product-info">
+            <div class="product-title">One Piece Stickers</div>
+            <div class="product-meta">Pack of 20</div>
+            <div class="product-footer">
+              <span class="price">₹199</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Deku Funko Pop"
+          data-price="1299"
+          data-material="Vinyl figure"
+          data-taxes="GST 18% included"
+          data-delivery="4–6 days"
+          data-shipping="Free above ₹1499">
+          <div class="product-img-wrapper">
+            <img src="Screenshot 2025-12-15 194925.png" alt="Deku Funko Pop">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Deku Funko Pop</div>
+            <div class="product-meta">Official Funko</div>
+            <div class="product-footer">
+              <span class="price">₹1,299</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Levi Ackerman Poster"
+          data-price="399"
+          data-material="Matte laminated"
+          data-taxes="GST 12% included"
+          data-delivery="3–5 days"
+          data-shipping="₹49 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Screenshot 2025-12-16 213038.png" alt="Levi Poster">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Levi Ackerman Poster</div>
+            <div class="product-meta">Attack on Titan</div>
+            <div class="product-footer">
+              <span class="price">₹399</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Anime LED Desk Lamp"
+          data-price="1599"
+          data-material="Acrylic panel + LED base"
+          data-taxes="GST 18% included"
+          data-delivery="5–7 days"
+          data-shipping="₹99 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Super Saiyan Glow_ 3D Goku LED Illusion Lamp for Epic Room Lighting.jpg" alt="Anime LED Desk Lamp">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Anime LED Desk Lamp</div>
+            <div class="product-meta">7 color modes</div>
+            <div class="product-footer">
+              <span class="price">₹1,599</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Sailor Moon Tote Bag"
+          data-price="649"
+          data-material="Canvas, 38 × 40 cm"
+          data-taxes="GST 12% included"
+          data-delivery="4–6 days"
+          data-shipping="₹59 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Backpacks & Bags_ Purses, Satchels & More _ Hot Topic.jpg" alt="Sailor Moon Tote Bag">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Sailor Moon Tote Bag</div>
+            <div class="product-meta">Eco friendly print</div>
+            <div class="product-footer">
+              <span class="price">₹649</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="product-card"
+          data-name="Spy x Family Cushion"
+          data-price="899"
+          data-material="Microfiber cover + filling"
+          data-taxes="GST 12% included"
+          data-delivery="3–5 days"
+          data-shipping="₹79 standard shipping">
+          <div class="product-img-wrapper">
+            <img src="Anya Spy x Family Pillow Cover _ Anime Throw Pillow Case _ Kawaii Home Decor _ Manga Fan Gift _ Cute Pink Cushion Cover.jpg" alt="Spy x Family Cushion">
+          </div>
+          <div class="product-info">
+            <div class="product-title">Spy x Family Cushion</div>
+            <div class="product-meta">16 × 16 inches</div>
+            <div class="product-footer">
+              <span class="price">₹899</span>
+              <button class="book-btn">Add</button>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      
+      <aside class="cart-summary">
+        <h3>Your Cart</h3>
+        <p>Items added: <span id="itemCount">0</span></p>
+        <p>Click on any product to view details, then add it to your cart.</p>
+      </aside>
+    </main>
+
+
+    <div class="details-modal" id="detailsModal">
+      <div class="details-content">
+        <div class="details-img">
+          <img id="detailsImg" src="" alt="">
+        </div>
+        <div class="details-info">
+          <h3 id="detailsName"></h3>
+          <div class="details-price" id="detailsPrice"></div>
+          <ul class="details-list">
+            <li id="detailsMaterial"></li>
+            <li id="detailsTaxes"></li>
+            <li id="detailsDelivery"></li>
+            <li id="detailsShipping"></li>
+          </ul>
+        </div>
+        <div class="details-actions">
+          <button class="close-details" id="detailsClose">Close</button>
+          <button class="details-add" id="detailsAdd">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    
+    const themeToggle = document.getElementById("themeToggle");
+    const body = document.body;
+
+    themeToggle.addEventListener("click", () => {
+      body.classList.toggle("dark");
+    });
+
+    
+    const itemCountSpan = document.getElementById("itemCount");
+    let itemCount = 0;
+
+    function incrementCart() {
+      itemCount++;
+      itemCountSpan.textContent = itemCount;
+      itemCountSpan.classList.remove("pulse");
+      void itemCountSpan.offsetWidth;
+      itemCountSpan.classList.add("pulse");
+    }
+
+    
+    const detailsModal = document.getElementById("detailsModal");
+    const detailsImg = document.getElementById("detailsImg");
+    const detailsName = document.getElementById("detailsName");
+    const detailsPrice = document.getElementById("detailsPrice");
+    const detailsMaterial = document.getElementById("detailsMaterial");
+    const detailsTaxes = document.getElementById("detailsTaxes");
+    const detailsDelivery = document.getElementById("detailsDelivery");
+    const detailsShipping = document.getElementById("detailsShipping");
+    const detailsClose = document.getElementById("detailsClose");
+    const detailsAdd = document.getElementById("detailsAdd");
+
+    let currentProductCard = null;
+
+    
+    document.getElementById("productGrid").addEventListener("click", (e) => {
+      const btn = e.target.closest(".book-btn");
+      const card = e.target.closest(".product-card");
+      if (!card) return;
+
+      if (btn) {
+        
+        incrementCart();
+        e.stopPropagation();
+        return;
+      }
+
+      currentProductCard = card;
+      const img = card.querySelector("img");
+
+      detailsImg.src = img.src;
+      detailsImg.alt = img.alt;
+      detailsName.textContent = card.dataset.name;
+      detailsPrice.textContent = "₹" + card.dataset.price;
+      detailsMaterial.textContent = "Material: " + card.dataset.material;
+      detailsTaxes.textContent = "Taxes: " + card.dataset.taxes;
+      detailsDelivery.textContent = "Delivery: " + card.dataset.delivery;
+      detailsShipping.textContent = "Shipping: " + card.dataset.shipping;
+
+      detailsModal.classList.add("active");
+    });
+
+    detailsClose.addEventListener("click", () => {
+      detailsModal.classList.remove("active");
+    });
+
+    detailsAdd.addEventListener("click", () => {
+      incrementCart();
+      detailsModal.classList.remove("active");
+    });
+
+    detailsModal.addEventListener("click", (e) => {
+      if (e.target === detailsModal) {
+        detailsModal.classList.remove("active");
+      }
+    });
+
+    
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.toLowerCase();
+      const cards = document.querySelectorAll(".product-card");
+      cards.forEach(card => {
+        const name = card.dataset.name.toLowerCase();
+        card.style.display = name.includes(term) ? "" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
