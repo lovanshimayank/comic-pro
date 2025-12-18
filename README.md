@@ -73,10 +73,15 @@ Screenshots included in the repository demonstrate:
 
 
 ● Modern anime-themed UI
+
 ● Responsive layout for all screen sizes
+
 ● Clean product grid display
+
 ● Minimal and readable design
+
 ● Smooth visual flow
+
 ● Beginner-friendly code structure
 
 ***
