@@ -1,11 +1,18 @@
-🎨 Anime Store – Modern Frontend UI
+<h1>🎨 Anime Store – Modern Frontend UI</h1>
+
+
+
+
+
 
 A modern, visually rich Anime Store frontend UI built using HTML, CSS, and JavaScript.
 This project focuses on clean layouts, responsive design, and aesthetic presentation for anime-themed products.
 
+***
 
 
-✨ Project Overview
+<h2>✨ Project Overview</h2>
+
 
 This is a frontend-only UI project designed to showcase:
 
@@ -20,9 +27,14 @@ This is a frontend-only UI project designed to showcase:
 The project is created as practice + portfolio work to improve frontend skills and UI design sense.
 
 
+***
 
 
-📷 UI Preview
+
+<h2>📷 UI Preview</h2>
+
+
+
 
 Screenshots included in the repository demonstrate:
 
@@ -51,10 +63,14 @@ Screenshots included in the repository demonstrate:
 <img width="1575" height="767" alt="Screenshot 2025-12-18 105535" src="https://github.com/user-attachments/assets/86fd348b-5975-47ba-91e5-b24be9073cc1" />
 
 
+***
+
+
+<h2>🚀 Features</h2>
 
 
 
-🚀 Features
+
 
 ● Modern anime-themed UI
 ● Responsive layout for all screen sizes
@@ -63,9 +79,14 @@ Screenshots included in the repository demonstrate:
 ● Smooth visual flow
 ● Beginner-friendly code structure
 
+***
 
 
-🛠 Tech Stack
+<h2>🛠 Tech Stack</h2>
+
+
+
+
 
 ● HTML5 – Structure
 
@@ -73,10 +94,12 @@ Screenshots included in the repository demonstrate:
 
 ● JavaScript (Vanilla) – Basic interactivity
 
+***
 
 
+<h2>🎯 Purpose of This Project</h2>
 
-🎯 Purpose of This Project
+
 
 This project was built to:
 
@@ -90,9 +113,13 @@ This project was built to:
 
 ● Gain confidence with real-world design
 
+***
 
 
-🧠 Learning Outcomes
+<h2>🧠 Learning Outcomes</h2>
+
+
+
 
 Through this project, I worked on:
 
@@ -104,9 +131,13 @@ Through this project, I worked on:
 
 ● Real-world frontend project flow
 
+***
+
+<h2>📌 Notes</h2>
 
 
-📌 Notes
+
+
 
 ● This project is frontend only
 
@@ -115,14 +146,24 @@ Through this project, I worked on:
 ● All product names and images are used for practice purposes only
 
 
+***
 
-👨‍💻 Author
+<h2>👨‍💻 Author</h2>
+
+
 
 Mayank Lovanshi
 Frontend Developer | UI Enthusiast
 
+***
 
-⭐ Support
+
+<h2>⭐ Support</h2>
+
+
+
 
 If you like this project or found it helpful,
 don’t forget to star ⭐ the repository!
+
+***
